@@ -1,7 +1,22 @@
+<script>
+  const handleSubmit = (e) => {
+    console.log("Changing")
+    const file = e.target.files[0];
+    let fileReader = new FileReader();
+    fileReader.onload = (event) => {
+      console.log(event, event.target.result)
+    }
+    fileReader.onerror = (error) => {
+      console.error(error)
+    }
+    fileReader.readAsText(file)
+  }
+</script>
+
 <main class="text-white bg-black pt-52 min-h-[100svh] flex flex-col justify-self-center content-center items-center">
   <h1 class="text-white text-2xl">Welcome to <span class="font-mono text-red-500 shadow-black animate-pulse duration-500 text-4xl tracking-wide">Aggressive Compressor</span></h1>
 
-  <form method="POST" enctype="multipart/form-data" class="flex flex-col gap-2 w-fit items-center mt-16">
+  <form on:submit|preventDefault={handleSubmit} method="POST" enctype="multipart/form-data" class="flex flex-col gap-2 w-fit items-center mt-16">
     <input type="file" id="uploadedFile" name="uploadedFile" class="text-white" accept="video/*, audio/*, text/*, image/*, .md, .json" required/>
     <button class="bg-white px-2 py-1 text-black w-fit rounded-md hover:bg-neutral-600 active:bg-neutral-400" type="submit">Upload file</button>
   </form>

@@ -8,7 +8,7 @@ export const actions = {
   default: async ({ request }) => {
     const data = await request.formData();
     const uploadFile = data.get("uploadedFile") as File;
-    console.log(uploadFile)
+    // console.log("Array buffer of original file", uploadFile.arrayBuffer())
 
     const extension = uploadFile.name.split(".")[1]
     const bannedExtensions = ["js", "ts", "zip", "7z", "tar", "exe", "sh", "bat"]
@@ -28,7 +28,7 @@ export const actions = {
       return fail(500, { message: "Failed to compress file." })
     }
     const output = await readFile(outputPath)
-    console.log(output)
+    console.log("Output:", output)
     return { success: true, file: output}
   }
 }
