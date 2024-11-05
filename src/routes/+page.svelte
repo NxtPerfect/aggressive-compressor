@@ -1,9 +1,13 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
+  import Nav from "$lib/components/Nav.svelte";
+  import Footer from "$lib/components/Footer.svelte";
 
 	let { data, form }: { data: PageData, form: ActionData } = $props();
   var filename = "";
 </script>
+
+<Nav/>
 
 <main class="text-white bg-black pt-52 min-h-[100svh] flex flex-col justify-self-center content-center items-center">
   <h1 class="text-white text-2xl">Welcome to <span class="font-mono text-red-500 shadow-black animate-pulse duration-500 text-4xl tracking-wide">Aggressive Compressor</span></h1>
@@ -34,10 +38,10 @@
       }
     })
 }
-      class="bg-blue-500 px-2 py-1 text-white w-fit rounded-md hover:bg-sky-500 active:bg-sky-400">Download compressed file</button>
+      class="bg-blue-500 mt-6 px-2 py-1 text-white w-fit rounded-md hover:bg-sky-500 active:bg-sky-400">Download compressed file</button>
   {/if}
 
-  <h2 class="mt-64 text-4xl">FAQ</h2>
+  <h2 class="mt-64 text-4xl" id="faq">FAQ</h2>
   <div class="flex flex-col mx-24 gap-16">
     <div class="grid grid-cols-2 gap-16 min-h-[6lh] justify-center justify-items-center items-center self-center content-center">
       <h3 class="text-2xl">What?</h3>
@@ -59,3 +63,5 @@
     </div>
   </div>
 </main>
+
+<Footer/>

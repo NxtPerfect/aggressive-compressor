@@ -26,11 +26,12 @@ export const actions = {
 
     const hashInputFile = computeHash(uploadFile.name)
 
-    const inputPath = inputFolder + hashInputFile + "." + getExtensionOfFile(uploadFile)
-    const outputPath = outputFolder + hashInputFile + ".tar.bz3"
+    const inputFile = sanitizePaths(hashInputFile + "." + getExtensionOfFile(uploadFile))
+    const inputPath = sanitizePaths(inputFolder + inputFile)
+    const outputPath = sanitizePaths(outputFolder + hashInputFile + ".tar.bz3")
 
     await writeFile(inputPath, Buffer.from(await uploadFile.arrayBuffer()))
-    const { error, stdout, stderr } = execSync(`touch ${outputPath} & tar -cvf - ${inputPath} | bzip3 -j 16 > ${outputPath}`)
+    const { error, stdout, stderr } = execSync(`tar -C "${inputFolder}" -cvf "${outputPath}" "${inputFile}" -I bzip3`)
     if (error) {
       console.error(error)
       return fail(500)
@@ -39,7 +40,7 @@ export const actions = {
   }
 }
 
-export function checkFeatureFlags() {
+function checkFeatureFlags() {
   if (env.FEATURE_FLAG_LOGIN === "true") {
     console.log("But are you logged in?")
   }
@@ -49,25 +50,25 @@ export function checkFeatureFlags() {
   return
 }
 
-export function computeHash(fileName: string) {
+function computeHash(fileName: string) {
   return createHash("sha1").update(fileName + env.SECRET).digest('hex')
 }
 
-export async function getFileFromFormData(request: Request) {
+function sanitizePaths(input: string) {
+  return input.replace(/[^a-zA-Z0-9_\-\.\/]/g, '')
+}
+
+async function getFileFromFormData(request: Request) {
   const data = await request.formData()
   const uploadFile = data.get("uploadedFile") as File
   return uploadFile
 }
 
-export function hasBannedExtension(uploadFile: File) {
+function hasBannedExtension(uploadFile: File) {
   const extension = getExtensionOfFile(uploadFile)
   return bannedExtensions.includes(extension)
 }
 
-export function getExtensionOfFile(file: File) {
+function getExtensionOfFile(file: File) {
   return file.name.split(".")[1]
-}
-
-export function fetchUploadedFileAndDownload(form: Response) {
-  var filename = "";
 }
