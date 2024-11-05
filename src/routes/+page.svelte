@@ -2,6 +2,7 @@
 	import type { PageData, ActionData } from './$types';
 
 	let { data, form }: { data: PageData, form: ActionData } = $props();
+  var filename = "";
 </script>
 
 <main class="text-white bg-black pt-52 min-h-[100svh] flex flex-col justify-self-center content-center items-center">
@@ -13,7 +14,27 @@
     <button class="bg-white px-2 py-1 text-black w-fit rounded-md hover:bg-neutral-600 active:bg-neutral-400" type="submit">Upload file</button>
   </form>
   {#if form?.success}
-    <button formaction="?/download" method="POST" class="bg-blue-500 px-2 py-1 text-white w-fit rounded-md hover:bg-sky-500 active:bg-sky-400">Download compressed file</button>
+    <button onclick={fetch(`/api/download/${form?.message}`)
+    .then(res => {
+      const header = res.headers.get('Content-Disposition');
+      const parts = header.split(';');
+      filename = parts[1].split('=')[1].replaceAll("\"", "");
+
+      return res.blob();
+    })
+    .then(blob => {
+      if (blob != null) {
+        var url = window.URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
+    })
+}
+      class="bg-blue-500 px-2 py-1 text-white w-fit rounded-md hover:bg-sky-500 active:bg-sky-400">Download compressed file</button>
   {/if}
 
   <h2 class="mt-64 text-4xl">FAQ</h2>
