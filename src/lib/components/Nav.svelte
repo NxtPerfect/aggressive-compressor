@@ -1,7 +1,11 @@
 <nav>
   <a href="/">Home</a>
-  <a href="/login">Login</a>
-  <a href="/register">Register</a>
-  <a href="#pricing">Pricing</a>
+  <!-- {#if checkFeatureFlag("login")} -->
+  <!--   <a href="/login">Login</a> -->
+  <!--   <a href="/register">Register</a> -->
+  <!-- {/if} -->
+  <!-- {#if checkFeatureFlag("pricing")} -->
+  <!--   <a href="#pricing">Pricing</a> -->
+  <!-- {/if} -->
   <a href="#faq">FAQ</a>
 </nav>
