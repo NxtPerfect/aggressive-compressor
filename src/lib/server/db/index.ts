@@ -74,3 +74,12 @@ export async function registerNewUser(newUser: User) {
     }
   )
 }
+
+export async function checkIfUserMatchesInDatabase(email: string, password: string) {
+  const result = await db.select({ password: users.password }).from(users).where(eq(users.email, email))
+  console.log(result)
+  if (result.length === 0 || result[0].password !== password) {
+    return false
+  }
+  return true
+}

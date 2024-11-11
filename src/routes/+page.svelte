@@ -7,9 +7,6 @@
   var filename = "";
 </script>
 
-<Nav/>
-
-<main class="text-white bg-black pt-52 min-h-[100svh] flex flex-col justify-self-center content-center items-center">
   <h1 class="text-white text-2xl">Welcome to <span class="font-mono text-red-500 shadow-black animate-pulse duration-500 text-4xl tracking-wide">Aggressive Compressor</span></h1>
 
   <!-- <form on:submit|preventDefault={handleSubmit}  class="flex flex-col gap-2 w-fit items-center mt-16"> -->
@@ -62,6 +59,3 @@
         All of these questions this project answers</p>
     </div>
   </div>
-</main>
-
-<Footer/>

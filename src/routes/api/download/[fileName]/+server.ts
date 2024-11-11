@@ -1,4 +1,4 @@
-import { readFileSync, readFile } from "node:fs";
+import { readFileSync } from "node:fs";
 
 export async function GET({ params }) {
   const fileName = params.fileName;
